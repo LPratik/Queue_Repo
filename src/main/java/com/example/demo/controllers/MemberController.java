@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.Member;
+import com.example.demo.model.DeviceResponseDTO;
 import com.example.demo.model.MemberVO;
 import com.example.demo.repositories.MemberRepository;
 import com.example.demo.services.MemberService;
@@ -64,7 +65,7 @@ public class MemberController {
 	
 	@RequestMapping(value = "/device/{id}", method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> getMemberDevice(@PathVariable String id){
+	public ResponseEntity<DeviceResponseDTO> getMemberDevice(@PathVariable String id){
 		return ResponseEntity.ok().body(memberService.getMemberWaitTime(id));
 	}
 	

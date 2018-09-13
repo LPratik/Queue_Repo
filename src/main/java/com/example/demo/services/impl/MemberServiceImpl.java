@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.AverageTime;
 import com.example.demo.entities.Member;
+import com.example.demo.model.DeviceResponseDTO;
 import com.example.demo.model.MemberVO;
 import com.example.demo.repositories.AvgServiceTimeRepository;
 import com.example.demo.repositories.MemberRepository;
@@ -36,7 +37,7 @@ public class MemberServiceImpl implements MemberService{
 			Date currentTime = new Date();
 			Long diff = currentTime.getTime() - serviceMember.getStartTime().getTime();
 			Integer servSeconds = (int) (diff / 1000);
-			
+			serviceMember.setDeleted(currentTime);
 			serviceMember.setState("COMPLETE");
 			serviceMember.setEndTime(currentTime);
 			serviceMember.setServiceTime(servSeconds);
@@ -60,10 +61,10 @@ public class MemberServiceImpl implements MemberService{
 		return nextMember;
 	}
 	
-	public String getMemberWaitTime(String deviceId){
+	public DeviceResponseDTO getMemberWaitTime(String deviceId){
 		String waitingTime = "00:00:00";
 		Member member = memberRepository.getMemberByDeviceID(deviceId);
-		if(member!=null){
+		if(member!=null && member.getState().equals("WAIT")){
 			List<Member> waitingMembers = memberRepository.getAllWaitingMembers();
 			if(waitingMembers!=null && !waitingMembers.isEmpty()){
 				int index = waitingMembers.indexOf(member);
@@ -72,7 +73,11 @@ public class MemberServiceImpl implements MemberService{
 				waitingTime = calculateMemberWaitTime(index, avgServiceTime, serviceMember);
 			}
 		}
-		return waitingTime;
+		
+		DeviceResponseDTO response = new DeviceResponseDTO();
+		response.setDeviceId(deviceId);
+		response.setWaitTime(waitingTime);
+		return response;
 	}
 	
 	public String calculateMemberWaitTime(int index, List<AverageTime> avgServiceTime, Member serviceMember ){

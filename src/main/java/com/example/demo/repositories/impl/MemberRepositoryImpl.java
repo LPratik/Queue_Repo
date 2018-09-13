@@ -25,10 +25,17 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 	
 	@Override
 	public Member getMemberByDeviceID(String deviceId) {
+		Member member = null;
 		Query query = entityManager.createNativeQuery("SELECT qm.* FROM member as qm " +
                 "WHERE qm.device_id = ?", Member.class);
         query.setParameter(1, deviceId);
-        return (Member) query.getSingleResult();
+        try{ 
+			member = (Member) query.getSingleResult();
+		}catch(NoResultException e){
+
+		}finally{
+			return member;
+		}
 	}
 
 	@Override
