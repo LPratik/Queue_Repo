@@ -1,0 +1,63 @@
+
+<div class="container">
+<div class="page-header"><h1>QUEUE MANAGER</h1></div>
+
+    <div *ngIf="servUser?.state === 'SERVICE'; else elseServDiv">
+        <table class="table table-striped">
+            <thead>
+                <th>Id</th>
+                <th>Device</th>
+                <th>Name</th>
+                <th>Status</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{servUser.id}}</td>
+                    <td>{{servUser.deviceId}}</td>
+                    <td>{{servUser.name}}</td>
+                    <td>SERVICE</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <ng-template #elseServDiv>
+        <div><h3 class="no-member"> No Member In Service</h3></div>
+    </ng-template>
+
+    <div *ngIf="users?.length > 0; else elseWaitDiv">
+        <table class="table table-striped">
+            <thead>
+                <th>Id</th>
+                <th>Device</th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Operations</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users">
+                    <td>{{user.id}}</td>
+                    <td>{{user.deviceId}}</td>
+                    <td>{{user.name}}</td>
+                    <td>Waiting</td>
+                    <td><button class="btn btn-danger" (click)="deleteUser(user)">Delete</button>
+                        <button class="btn btn-primary" (click)="updateUser(user)">Edit</button></td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <ng-template #elseWaitDiv>
+        <div><h3 class="no-member">No Member In Waiting</h3></div>
+    </ng-template>
+    <button class="btn btn-primary" (click)="newUser()">Add Member</button>
+    
+    <button *ngIf="users?.length > 0; else elseStopDiv" class="btn btn-primary" (click)="callNextUser()" >Call Next Member</button>
+   
+    <ng-template #elseStopDiv>
+        <button  *ngIf="users?.length == 0 &&  servUser != undefined; else elseHideBtnDiv" class="btn btn-primary" (click)="callNextUser()">Stop Service</button>
+    </ng-template>
+
+    <ng-template #elseHideBtnDiv>
+        
+    </ng-template>
+</div>
