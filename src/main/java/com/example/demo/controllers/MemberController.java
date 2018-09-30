@@ -23,7 +23,7 @@ import com.example.demo.services.MemberService;
 
 @RestController
 @RequestMapping("/api")
-//@CrossOrigin(origins="http://localhost:4200/",allowedHeaders="*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class MemberController {
 
 	@Autowired
@@ -72,7 +72,11 @@ public class MemberController {
 	@RequestMapping(value = "/next", method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Member> callNextMember(){
-		return ResponseEntity.ok().body(memberService.callNext());
+		Member nextMember = memberService.callNext();
+		if(nextMember!=null){
+			return ResponseEntity.ok().body(nextMember);
+		}
+		return ResponseEntity.ok().body(null);
 	}
 	
 	@GetMapping("/members/waiting")

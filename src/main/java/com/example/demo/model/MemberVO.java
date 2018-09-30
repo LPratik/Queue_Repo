@@ -1,10 +1,18 @@
 package com.example.demo.model;
 
 public class MemberVO {
-
+    private int id;
 	private String deviceId;
 	private String name;
+	private String state;
 	private String waitingTime;
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getDeviceId() {
 		return deviceId;
 	}
@@ -17,6 +25,13 @@ public class MemberVO {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
 	public String getWaitingTime() {
 		return waitingTime;
 	}
@@ -25,7 +40,8 @@ public class MemberVO {
 	}
 	@Override
 	public String toString() {
-		return "MemberVO [deviceId=" + deviceId + ", name=" + name + ", waitingTime=" + waitingTime + "]";
+		return "MemberVO [id=" + id + ", deviceId=" + deviceId + ", name=" + name + ", state=" + state
+				+ ", waitingTime=" + waitingTime + "]";
 	}
 	
 }

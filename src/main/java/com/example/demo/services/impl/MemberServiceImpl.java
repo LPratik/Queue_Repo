@@ -56,9 +56,10 @@ public class MemberServiceImpl implements MemberService{
 			utilService.updateAvgServiceTime(completeMembers);
 		}
 		
-		TimeExtendThread tar = TimeExtendThread.getTarget(avgServiceTimeRepo,nextMember.getStartTime());
-        
-		return nextMember;
+		if(nextMember!=null){
+			TimeExtendThread tar = TimeExtendThread.getTarget(avgServiceTimeRepo,nextMember.getStartTime());
+		}
+		return nextMember!=null?nextMember:serviceMember;
 	}
 	
 	public DeviceResponseDTO getMemberWaitTime(String deviceId){
@@ -92,14 +93,24 @@ public class MemberServiceImpl implements MemberService{
 		String waitingTime = "00:00:00";
 		int index=0;
 		Member serviceMember = memberRepository.getMemberInService();
+		if(serviceMember!=null){
+			MemberVO memberVo = new MemberVO();
+			memberVo.setId(serviceMember.getId());
+			memberVo.setDeviceId(serviceMember.getDeviceId());
+			memberVo.setName(serviceMember.getName());
+			memberVo.setState(serviceMember.getState());
+			membersList.add(memberVo);
+		}
 		List<AverageTime> avgServiceTime = avgServiceTimeRepo.findAll();
 		List<Member> waitingMembers = memberRepository.getAllWaitingMembers();
 		if(waitingMembers!=null && !waitingMembers.isEmpty()){
 			for(Member waitMamber : waitingMembers){
 				waitingTime = calculateMemberWaitTime(index, avgServiceTime, serviceMember);
 				MemberVO memberVo = new MemberVO();
+				memberVo.setId(waitMamber.getId());
 				memberVo.setDeviceId(waitMamber.getDeviceId());
 				memberVo.setName(waitMamber.getName());
+				memberVo.setState(waitMamber.getState());
 				memberVo.setWaitingTime(waitingTime);
 				membersList.add(memberVo);
 				index++;

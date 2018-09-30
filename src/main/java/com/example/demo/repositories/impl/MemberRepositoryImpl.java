@@ -42,7 +42,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 	public Member getMemberInService() {
 		Member member = null;
 		Query query = entityManager.createNativeQuery("SELECT qm.* FROM member as qm " +
-				"WHERE qm.state = ?", Member.class);
+				"WHERE qm.state = ? AND deleted IS NULL", Member.class);
 		query.setParameter(1, "SERVICE");
 		try{ 
 			member = (Member) query.getSingleResult();
@@ -97,7 +97,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 	@Override
 	public List<Member> getAllWaitingMembers() {
 		Query query = entityManager.createNativeQuery("SELECT qm.* FROM member as qm " +
-                "WHERE qm.state = ? ORDER BY 1 ASC", Member.class);
+                "WHERE qm.state = ? AND deleted IS NULL ORDER BY 1 ASC", Member.class);
         query.setParameter(1, "WAIT");
         return (List<Member>) (!query.getResultList().isEmpty()?query.getResultList():null);
 	}
