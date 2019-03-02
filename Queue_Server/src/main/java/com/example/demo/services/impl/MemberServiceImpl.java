@@ -88,9 +88,15 @@ public class MemberServiceImpl implements MemberService{
 		return waitingTime;
 	}
 	
+	public int getMemberWaitSecs(int index, List<AverageTime> avgServiceTime, Member serviceMember ){
+		int waitingSecs = 0;
+		waitingSecs = utilService.waitingTimeCalculator(index, avgServiceTime, serviceMember);
+		return waitingSecs;
+	}
+	
 	public List<MemberVO> getAllMemberWaitTime(){
 		List<MemberVO> membersList = new ArrayList<MemberVO>();
-		String waitingTime = "00:00:00";
+		int waitingTime = 0;
 		int index=0;
 		Member serviceMember = memberRepository.getMemberInService();
 		if(serviceMember!=null){
@@ -105,13 +111,13 @@ public class MemberServiceImpl implements MemberService{
 		List<Member> waitingMembers = memberRepository.getAllWaitingMembers();
 		if(waitingMembers!=null && !waitingMembers.isEmpty()){
 			for(Member waitMamber : waitingMembers){
-				waitingTime = calculateMemberWaitTime(index, avgServiceTime, serviceMember);
+				waitingTime = getMemberWaitSecs(index, avgServiceTime, serviceMember);
 				MemberVO memberVo = new MemberVO();
 				memberVo.setId(waitMamber.getId());
 				memberVo.setDeviceId(waitMamber.getDeviceId());
 				memberVo.setName(waitMamber.getName());
 				memberVo.setState(waitMamber.getState());
-				memberVo.setWaitingTime(waitingTime);
+				memberVo.setWaitTime(waitingTime);
 				membersList.add(memberVo);
 				index++;
 			}

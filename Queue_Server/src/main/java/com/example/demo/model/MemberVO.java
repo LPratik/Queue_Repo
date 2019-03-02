@@ -5,7 +5,7 @@ public class MemberVO {
 	private String deviceId;
 	private String name;
 	private String state;
-	private String waitingTime;
+	private int waitTime;
 	
 	public int getId() {
 		return id;
@@ -32,16 +32,16 @@ public class MemberVO {
 	public void setState(String state) {
 		this.state = state;
 	}
-	public String getWaitingTime() {
-		return waitingTime;
+	public int getWaitTime() {
+		return waitTime;
 	}
-	public void setWaitingTime(String waitingTime) {
-		this.waitingTime = waitingTime;
+	public void setWaitTime(int waitTime) {
+		this.waitTime = waitTime;
 	}
 	@Override
 	public String toString() {
 		return "MemberVO [id=" + id + ", deviceId=" + deviceId + ", name=" + name + ", state=" + state
-				+ ", waitingTime=" + waitingTime + "]";
+				+ ", waitTime=" + waitTime + "]";
 	}
 	
 }

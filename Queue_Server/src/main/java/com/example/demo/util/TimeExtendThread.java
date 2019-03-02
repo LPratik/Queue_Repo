@@ -67,12 +67,18 @@ public class TimeExtendThread implements Runnable{
             count++;*/
         	int elapsedSecs = (int)(new Date().getTime() - startTime.getTime())/1000;
         	if(elapsedSecs == avgServSecs){
-        		avgServSecs+=60;
+        		avgServSecs+=300;
         		
-        		avgTimeRepository.deleteAll();
-        		AverageTime avgTimeObj = new AverageTime();
+        		//avgTimeRepository.deleteAll();
+        		AverageTime avgTimeObj = avgTimeRepository.getAvgTimeById(1);
+        		if(avgTimeObj!=null) {
         		avgTimeObj.setAverageTime(avgServSecs);
+        			avgTimeObj.setUpdated(new Date());
         		avgTimeRepository.save(avgTimeObj);
+        		}
+        		//AverageTime avgTimeObj = new AverageTime();
+        		//avgTimeObj.setAverageTime(avgServSecs);
+        		//avgTimeRepository.save(avgTimeObj);
         		System.out.println("***** Average Service Time updated as " + avgServSecs +" *****" );
         	}
         	System.out.println("Elapsed seconds : " +elapsedSecs);

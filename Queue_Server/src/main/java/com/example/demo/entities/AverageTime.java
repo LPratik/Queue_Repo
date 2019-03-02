@@ -27,6 +27,10 @@ public class AverageTime {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date updated;
+	
+	
 	public Integer getId() {
 		return id;
 	}
@@ -51,9 +55,18 @@ public class AverageTime {
 		this.created = created;
 	}
 
+	public Date getUpdated() {
+		return updated;
+	}
+
+	public void setUpdated(Date updated) {
+		this.updated = updated;
+	}
+
 	@Override
 	public String toString() {
-		return "ServiceTime [id=" + id + ", averageTime=" + averageTime + ", created=" + created + "]";
+		return "AverageTime [id=" + id + ", averageTime=" + averageTime + ", created=" + created + ", updated="
+				+ updated + "]";
 	}
 
 }
